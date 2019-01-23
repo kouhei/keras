@@ -46,3 +46,24 @@ model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 return model
+
+"""
+学習の準備
+"""
+import keras
+model = Mynet()
+
+#各層のパラメータを学習させるように設定
+for layer in model.layers:
+    layer.trainable = True
+
+"""
+次にモデルをコンパイルします。
+コンパイルはoptimizerのセットのこと 今回はSGDを設定
+lossはタスクの種類 今回は多クラス分類なのでcategorical_crossentropy
+lrは学習率、decayは重み減衰、momentumはモーメンタム
+"""
+model.compile(loss='categorical_crossentropy',
+                  optimizer=keras.optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True),
+                  metrics=['accuracy'])
+
